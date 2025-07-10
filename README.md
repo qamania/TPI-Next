@@ -2,8 +2,12 @@
 ⚠️ This tool is inspired by [TMAP TPI NEXT Tool](https://www.tmap.net/building-blocks/test-process-improvement-tpi), all credits to them.
 
 ## Description
-We in QAMania understand importance of well established testing processes, and we appreciate the work of TMAP team. This tool is a web version of TPI NEXT tool, which allows you to assess your testing process maturity and get recommendations for improvement.
-The original TPI Next tool works is an Excel file, which is not very convenient for many users. We decided to create a web version of the tool, which is more user-friendly and accessible.
+We in QAMania understand importance of well established testing processes, and we appreciate the work of TMAP team.
+This tool is a web version of TPI NEXT tool, which allows you to assess your testing process maturity and get recommendations for improvement.
+The original TPI Next tool works is an Excel file, which is not very convenient for many users.
+We decided to create a web version of the tool, which is more user-friendly and accessible.
+
+Also we added one more category - AI, which is not present in the original tool, but is very important in modern testing processes.
 
 ## How to use
 1. Open the tool in your web browser: https://qamania.github.io/TPI-Next/en/index.html
@@ -20,6 +24,7 @@ The original TPI Next tool works is an Excel file, which is not very convenient 
 If you want to contribute to the project, create a pull request or open an issue. We will be happy to review your changes and merge them into the main branch.
 
 ## Roadmap
+- [x] add AI as a category in the questionnaire
 - [ ] implement audit results comparison by uploading csv files
 - [ ] add scenario with questions for the typical audit
 - [ ] add template of the audit report
