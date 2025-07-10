@@ -15,3 +15,11 @@ The original TPI Next tool works is an Excel file, which is not very convenient 
    - all your data is private and not shared with anyone. We do not have any backend, so we do not store any data on our servers
 4. After you finish the questionnaire, you will see your results for further analysis
 5. You can download your results as a csv file or PDF report
+
+## Contributing
+If you want to contribute to the project, create a pull request or open an issue. We will be happy to review your changes and merge them into the main branch.
+
+## Roadmap
+- [ ] implement audit results comparison by uploading csv files
+- [ ] add scenario with questions for the typical audit
+- [ ] add template of the audit report
