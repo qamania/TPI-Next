@@ -925,24 +925,24 @@ button:hover {
 
     .project-info-section {
         padding: 20px;
-        margin-bottom: 80px; /* Extra space for sticky buttons */
+        margin-bottom: 80px;
     }
 }
 
 /* Logo styling */
 .logo-container {
     position: fixed;
-    top: 80px; /* Moved down from 20px to 80px to clear the sticky nav */
+    top: 120px;
     right: 20px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.95); /* Slightly more opaque */
-    padding: 12px; /* Increased padding */
-    border-radius: 10px; /* Slightly more rounded */
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 }
 
 .logo {
-    height: 60px; /* Increased from 40px to 60px */
+    height: 60px;
     width: auto;
     display: block;
 }
