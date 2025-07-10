@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>TPI NEXT Контрольний список</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<!-- Logo in top right corner -->
+<div class="logo-container">
+    <img src="../images/qamania_logo.svg" alt="QAMania Logo" class="logo">
+</div>
+
+<!-- Sticky horizontal Table of Contents -->
+<div class="toc">
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+    <ul>
+        {% for category, levels in categories.items() %}
+        <li><a href="#cat-{{ category|replace(' ', '-')|lower }}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<h1>TPI NEXT Контрольний список</h1>
+
+<div class="disclaimer-card">
+    <button class="collapse-disclaimer" onclick="toggleDisclaimer()" title="Згорнути відмову від відповідальності">
+        <span class="collapse-icon">×</span>
+    </button>
+
+    <div class="language-switcher">
+        <span>Мова:</span>
+        <a href="../en/index.html" class="lang-link">English</a>
+        <span>|</span>
+        <a href="../ua/index.html" class="lang-link active">Українська</a>
+    </div>
+
+    <div class="disclaimer-content">
+        <div class="instructions">
+            <h3>Як використовувати цей контрольний список:</h3>
+            <ul>
+                <li>Будьте чесними</li>
+                <li>Виберіть <strong>Так</strong>, <strong>Ні</strong> або <strong>Н/З</strong> для кожного пункту</li>
+                <li>Натисніть <strong>Нотатки</strong>, щоб додати додаткові коментарі до будь-якого пункту. Намагайтеся робити нотатки якомога частіше</li>
+                <li>Ваш прогрес автоматично зберігається у вашому браузері</li>
+                <li>Використовуйте індикатор прогресу для відстеження завершення</li>
+                <li>Використовуйте <strong>Скинути</strong>, щоб очистити всі вибори та почати спочатку</li>
+                <li>Перевірте матрицю внизу для аналізу результатів</li>
+                <li>Експортуйте результати в csv або pdf</li>
+            </ul>
+        </div>
+
+        <div class="credits">
+            <p><strong>Автори:</strong> Цей контрольний список розроблено командою <a href="https://www.tmap.net/building-blocks/test-process-improvement-tpi" target="_blank">TPI NEXT</a>. Всі права належать їм!</p>
+        </div>
+
+        <div class="privacy-notice">
+            <p><strong>Повідомлення про конфіденційність:</strong> Всі дані зберігаються локально лише у вашому веб-браузері. Жодна інформація не надсилається на наші сервери або не зберігається на них.</p>
+        </div>
+    </div>
+</div>
+
+<form id="checklistForm">
+    {% for category, levels in categories.items() %}
+    {% set cat_idx = '%02d' % loop.index %}
+    <h2 id="cat-{{ category|replace(' ', '-')|lower }}" class="catTl">{{ category }}</h2>
+    {% for level, content in levels.items() %}
+    <h3>{{ level.title() }}</h3>
+    {% if content.description %}
+    <p class="level-desc">{{ content.description }}</p>
+    {% endif %}
+    <table>
+        <tr>
+            <th>Опис</th>
+            <th>Так</th>
+            <th>Ні</th>
+            <th>Н/З</th>
+            <th>Нотатки</th>
+        </tr>
+        {% for item in content['items'] %}
+        {% set quest_idx = cat_idx ~ '.' ~ level[:1]|lower ~ '.' ~ loop.index %}
+        <tr>
+            <td>{{ item }}</td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="yes"></td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="no"></td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="na"></td>
+            <td>
+                <button type="button" class="notesBtn" data-notes-for="{{ quest_idx }}">Нотатки
+                </button>
+            </td>
+        </tr>
+        <tr class="notesRow hiddenRow" id="notesRow-{{ quest_idx }}">
+            <td colspan="5">
+                <textarea class="notesArea" data-notes-for="{{ quest_idx }}" placeholder="Додати нотатки..."></textarea>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+    {% endfor %}
+</form>
+
+<div class="sticky-buttons">
+    <button id="collapseNotesBtn" type="button" onclick="collapseAllNotes()">Згорнути нотатки</button>
+    <button id="resetBtn" type="button" onclick="resetChecklist()">Скинути</button>
+    <button id="matrixBtn" type="button" onclick="scrollToMatrix()">Матриця</button>
+</div>
+
+<!-- Test Maturity Matrix Section -->
+<div class="maturity-matrix-section">
+    <h2>Матриця зрілості тестування</h2>
+    <div class="maturity-matrix">
+        <table class="maturity-table">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="category-header">Ключові області</th>
+                    <th rowspan="2" class="slider-header">Важливість</th>
+                    <th colspan="3" class="progress-header">Прогрес за рівнями</th>
+                </tr>
+                <tr>
+                    <th class="level-header controlled">Контрольований</th>
+                    <th class="level-header efficient">Ефективний</th>
+                    <th class="level-header optimized">Оптимізований</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for area_name, categories in matrix_data.items() %}
+                <!-- {{ area_name }} Section -->
+                <tr class="section-divider">
+                    <td colspan="5" class="section-title">{{ area_name.title() }}</td>
+                </tr>
+                {% for category in categories %}
+                <tr class="matrix-row" data-category="{{ category.key }}">
+                    <td class="category-name">{{ category.name }}</td>
+                    <td class="slider-cell">
+                        <div class="maturity-slider-container">
+                            <input type="range" class="maturity-slider" min="1" max="3" value="2" data-category="{{ category.key }}" title="Н - Низька важливість, З - Звичайна важливість, В - Висока важливість">
+                            <div class="slider-labels">
+                                <span>Н</span>
+                                <span>З</span>
+                                <span>В</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="controlled" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="efficient" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="optimized" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Management View per Key Area Priority Section -->
+<div class="management-priority-section">
+    <h3>Огляд керівництва за пріоритетом ключових областей</h3>
+    <div class="priority-controls">
+        <div class="priority-checkboxes">
+            <label><input type="checkbox" checked> Контрольований</label>
+            <label><input type="checkbox" checked> Ефективний</label>
+            <label><input type="checkbox" checked> Оптимізований</label>
+        </div>
+    </div>
+    <div class="priority-matrix">
+        <table class="priority-table">
+            <thead>
+                <tr>
+                    <th class="priority-level-header"></th>
+                    <th class="priority-progress-header controlled-column">Контрольований</th>
+                    <th class="priority-progress-header efficient-column">Ефективний</th>
+                    <th class="priority-progress-header optimizing-column">Оптимізований</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="priority-row" data-priority="high">
+                    <td class="priority-label">Високий</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="priority-row" data-priority="neutral">
+                    <td class="priority-label">Нейтральний</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="priority-row" data-priority="low">
+                    <td class="priority-label">Низький</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Project Information Card -->
+<div class="project-info-section">
+    <h3>Інформація про проєкт та резюме</h3>
+    <form class="project-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="projectName">Назва проєкту:</label>
+                <input type="text" id="projectName" name="projectName" placeholder="Введіть назву проєкту">
+            </div>
+            <div class="form-group">
+                <label for="auditDate">Дата аудиту:</label>
+                <input type="date" id="auditDate" name="auditDate">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="auditors">Аудитори:</label>
+            <input type="text" id="auditors" name="auditors" placeholder="Введіть імена аудиторів (розділені комами)">
+        </div>
+
+        <div class="form-group">
+            <label for="overview">Огляд:</label>
+            <textarea id="overview" name="overview" rows="6" placeholder="Вкажіть ваші нотатки, занепокоєння, сильні та слабкі сторони, враження про процес тестування в проєкті. Включіть будь-які спостереження, рекомендації або ключові висновки з аудиту."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="save-btn csv-btn" onclick="exportToCSV()">
+                <span class="btn-icon">📊</span>
+                Зберегти як CSV
+            </button>
+            <button type="button" class="save-btn pdf-btn" onclick="exportToPDF()">
+                <span class="btn-icon">📄</span>
+                Зберегти як PDF
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="../static/script.js"></script>
+</body>
+</html>

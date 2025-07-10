@@ -1,0 +1,482 @@
+{
+  "lang": "en",
+  "tpi": [
+    {
+      "Stakeholder commitment": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "Stakeholders commit to and support the test process by granting and delivering negotiated resources.",
+          "items": [
+            "The principal stakeholder is defined (not necessarily documented) and known to the testers.",
+            "Budget for test resources is granted by and negotiable with the principal stakeholder.",
+            "Stakeholders actually deliver the committed resources.",
+            "The principal stakeholder is responsible for a documented product risk analysis (the input for the test strategy)."
+          ]
+        },
+        "efficient": {
+          "description": "Stakeholders anticipate the implications of changes, thus enabling the test process to respond adequately.",
+          "items": [
+            "All relevant stakeholder are defined (not necessarily documented) and known to the testers.",
+            "Stakeholders actively acquire information on the quality of both the test process and the test object.",
+            "The stakeholders proactively take action on aspects that affect the test process. This includes changes in the delivery sequence of the test object and changes in the project scope."
+          ]
+        },
+        "optimized": {
+          "description": "Stakeholders recognize and stimulate process improvement as a shared responsibility",
+          "items": [
+            "Line management acknowledges that test process improvement comes with the need for increased learning time for which resources are provided.",
+            "Stakeholders are willing to adapt their way of working to suit the test process. This includes the software development and requirements management.",
+            "An adapted way of working by the stakeholder to suit demands of the test process is jointly evaluated by the test organization and the stakeholder."
+          ]
+        }
+      }
+    },
+    {
+      "Degree of involvement": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "Test activities are started up early to enable systematic preparations.",
+          "items": [
+            "The test assignment, scope and approach are negotiated early with the principal stakeholder as one of the first test activities.",
+            "Test activities are started early, timely before test execution, with the goal of keeping the test activities of the project's critical path.",
+            "A tester is involved in project planning: dependencies between the test process and other processes are taken into account.",
+            "A tester is involved in the analysis and mitigation of overall project risks."
+          ]
+        },
+        "efficient": {
+          "description": "The involvement of testing enables reliable test process output and prevention of defects.",
+          "items": [
+            "Testers contribute to impact and risk analysis of change requests and changes to the test basis.",
+            "Testers contribute to the impact analysis of defects.",
+            "Testers are actively involved in optimizing the test basis (more than a testability review), in which the object under test is described."
+          ]
+        },
+        "optimized": {
+          "description": "The involvement of testing in the project makes it possible to optimize both the project and the test process.",
+          "items": [
+            "The test team is involved in the evaluation of the project. The lessons learned from the test process are valued and used for (the set up of) future projects.",
+            "The test team has an undisputed part in all relevant development activities, being accepted and valued."
+          ]
+        }
+      }
+    },
+    {
+      "Test strategy": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "The test strategy enables the distribution of the test efforts and resources among the test levels and test activities.",
+          "items": [
+            "The principal stakeholder agrees with the documented test strategy.",
+            "The test strategy is based on a product risk analysis.",
+            "There is a differentiation in test levels, test types, test coverage and test depth, depending on the analyzed risks.",
+            "For retests and regression testing a simple strategy determination takes place."
+          ]
+        },
+        "efficient": {
+          "description": "The test strategy is used to achieve the adequate balance between analyzed product risks, test coverage and available efforts and resources, involving all stakeholders.",
+          "items": [
+            "All relevant stakeholders agree with the defined (and documented) test strategy.",
+            "The overlap or gaps in test coverage between test levels or test types are well considered.",
+            "The test strategy includes adequate test design techniques."
+          ]
+        },
+        "optimized": {
+          "description": "The method of the test strategy is maintained well to ensure easy and valid application.",
+          "items": [
+            "The process of creating the test strategy is evaluated regularly and, where necessary, adapted for future use.",
+            "The test strategy itself is evaluated against metrics on incidents that occur in production."
+          ]
+        }
+      }
+    },
+    {
+      "Test organization": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "A test organization enables uniformity in test approach, test products and procedures, agreements and clear test results.",
+          "items": [
+            "People involved know where to find the persons (or department) responsible for test services.",
+            "There is a structure of control and accountability within the test organization.",
+            "Test tasks and responsibilities are defined (and documented) and are assigned to a person or organizational unit.",
+            "The products and services of the test organization are clear to its clients."
+          ]
+        },
+        "efficient": {
+          "description": "A test organization enables the right test expertise and experience at the right place.",
+          "items": [
+            "Different persons or departments that provide test services reconcile the organizing of their test work.",
+            "The test organization provides the agreed test resources and services to the projects.",
+            "A well considered choice has been made as where and how to position the test organization.",
+            "The test policy is followed."
+          ]
+        },
+        "optimized": {
+          "description": "A test organization leads to continuously improved results by test services.",
+          "items": [
+            "The products and services of the test organization are regularly evaluated; new services are added when they are cost-effective.",
+            "The test organization is held accountable for success and failure of test assignments.",
+            "The test organization performance is regularly compared with external suppliers or similar test organizations."
+          ]
+        }
+      }
+    },
+    {
+      "Communication": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "Communication of information to all involved makes it possible to take the appropriate decisions.",
+          "items": [
+            "Every team member is aware of decisions being made and of internal progress.",
+            "The test team actively gathers relevant information from stakeholders.",
+            "It is possible to trace back points of action, agreements and decisions of the test team.",
+            "The test team deliberates with stakeholders about progress, product quality and risks and signals proactively potential delays as well."
+          ]
+        },
+        "efficient": {
+          "description": "Concise form and content of information for the target audience contributes to more productive work.",
+          "items": [
+            "The test team identifies which information needs to be shared with which stakeholder.",
+            "The test team participates in relevant meetings with other stakeholders.",
+            "The test team has the different (communication) means necessary to its disposal to communicate with its stakeholders using an appropriate form."
+          ]
+        },
+        "optimized": {
+          "description": "Communication is a means for team building.",
+          "items": [
+            "Best practices and lessons learned regarding communication and its efficiency are evaluated during and at the end of a test project for future purposes.",
+            "The organization investigates the use of new means of communication and defines policies."
+          ]
+        }
+      }
+    },
+    {
+      "Reporting": {
+        "area": "Stakeholder relations",
+        "controlled": {
+          "description": "The test team and stakeholders agree on what is reported and how, thus preventing a lack of information or an information overload.",
+          "items": [
+            "The reporting contains aspects of time and/or costs, results and risks.",
+            "The reporting frequency and content matches the basic demands of stakeholders for the decision making process.",
+            "Reporting is done in writing."
+          ]
+        },
+        "efficient": {
+          "description": "Reporting is tuned to specific target groups to support the decision making process.",
+          "items": [
+            "Fulfilling the reporting demands of stakeholders, needed for an efficient decision making process, is balanced against the effort for providing it.",
+            "The reporting contains trends and recommendations concerning test process progress and project risks.",
+            "The reporting contains trends and recommendations concerning test goals and product risks."
+          ]
+        },
+        "optimized": {
+          "description": "Reporting provides information that can be used to optimize the software development lifecycle.",
+          "items": [
+            "Reporting provides data and/or measurements that can be used for current and future improvements of the test process and the software development lifecycle.",
+            "The data and/or measurements for software process improvement are handed over to a line organization at the test project closure."
+          ]
+        }
+      }
+    },
+    {
+      "Test process management": {
+        "area": "Test management",
+        "controlled": {
+          "description": "Proactive management of the test process enables the fulfillment of the test assignment.",
+          "items": [
+            "At the start of the test project a test plan is created. The test plan includes at least the test assignment, the test scope, the test planning, the roles and responsibilities.",
+            "The test plan is agreed with the principal stakeholder.",
+            "Each test activity is monitored and when necessary adjustments are initiated.",
+            "The test plan is agreed with the relevant stakeholders."
+          ]
+        },
+        "efficient": {
+          "description": "Managing the test process with clear authorizations makes instant adjustments possible to keep the test project on track.",
+          "items": [
+            "(Anticipated) Deviations of the test plan are discussed with the principal stakeholder and other relevant stakeholders.",
+            "Adjustments to the test plan are documented.",
+            "The test lead has a delegated mandate for the (re-)allocation of resources."
+          ]
+        },
+        "optimized": {
+          "description": "Lessons learned on test process management advance the effectiveness and efficiency of steering test projects to their required end result.",
+          "items": [
+            "Test process management is regularly evaluated, internally (by the test organization) and with stakeholders.",
+            "Lessons learned from earlier test projects are used for improving test process management."
+          ]
+        }
+      }
+    },
+    {
+      "Estimating and planning": {
+        "area": "Test management",
+        "controlled": {
+          "description": "The amount of resources per activity required is predicted.",
+          "items": [
+            "For test effort estimation, simple techniques are used such as ratios.",
+            "For each test activity there is an indication of the period in which it runs, the resources required and the products to be delivered. Activities to be identified are: test planning and management, defining test cases and executing test cases.",
+            "The dependencies between test phases or test activities are plotted in a test planning. A certain overlap of test phases and test activities is allowed.",
+            "Test estimations and test planning are discussed with the principal stakeholder."
+          ]
+        },
+        "efficient": {
+          "description": "Formal techniques make estimating and planning reliable.",
+          "items": [
+            "To be as accurate as possible, at least two estimating techniques are used.",
+            "The test phases and/or test activities are estimated and planned, using formal techniques.",
+            "Metrics are used to support the estimating and planning activities.",
+            "The test planning includes a testability review of the test basis and the evaluation of the test project."
+          ]
+        },
+        "optimized": {
+          "description": "Estimating is based on experience data from the organization.",
+          "items": [
+            "The test planning includes the conservation of testware for future reuse.",
+            "A set of estimation techniques and principles are maintained at an organizational level.",
+            "Key figures/data for the defined estimation techniques are provided at an organizational level."
+          ]
+        }
+      }
+    },
+    {
+      "Metrics": {
+        "area": "Test management",
+        "controlled": {
+          "description": "With the defined metrics it is possible to estimate and monitor the test process.",
+          "items": [
+            "In the test process metrics are defined and used to estimate and control the test project.",
+            "The necessary input for the metrics is recorded uniformly and the defined metrics are systematically stored.",
+            "The input (data) for metrics is provably accurate."
+          ]
+        },
+        "efficient": {
+          "description": "The provided objectivity through metrics outweighs the effort of collecting and analyzing the measurement data.",
+          "items": [
+            "The required effort to collect, analyze and value the necessary data is measured against the benefits.",
+            "Collecting metrics does not conflict with the progress and quality of the test process.",
+            "In the test process metrics are defined and used to measure the efficiency of the test process.",
+            "Conclusions coming from analyzed metrics are discussed with stakeholders and are acted upon."
+          ]
+        },
+        "optimized": {
+          "description": "Metrics meet the ever changing information need.",
+          "items": [
+            "The way metrics contribute to the information need is monitored.",
+            "Changes in information need lead to new or optimization of metrics."
+          ]
+        }
+      }
+    },
+    {
+      "Defect management": {
+        "area": "Test management",
+        "controlled": {
+          "description": "Defects are tracked at an individual level and defect status is monitored.",
+          "items": [
+            "The defect lifecycle is defined (including a retest) and applied.",
+            "The following items are recorded for each defect: unique ID, related test case ID (if applicable), person reporting the defect, date, severity category, description (the actions to reproduce the defect, expected and observed result) and defect status.",
+            "For further handling of defects the responsibilities are defined.",
+            "All those involved in assessing and solving defects have access to the relevant defect management tool."
+          ]
+        },
+        "efficient": {
+          "description": "Common aspects of defects are analyzed to find similar defects.",
+          "items": [
+            "The defect management tool enforces the authorization structure for status transitions of defects.",
+            "All persons involved in logging and/or tracking defects use the same defect management tool or separate defect management tools with a seamless connection.",
+            "The defect administration lends itself for extensive reporting possibilities, which means that reports can be selected and sorted in different ways.",
+            "Trends are identified. For this, more information is recorded about a defect, the subsystem, priority, program and version, test basis and version, root cause, all status transitions and problem solver."
+          ]
+        },
+        "optimized": {
+          "description": "Defects are analyzed for common properties to avoid future defects.",
+          "items": [
+            "A set of guidelines for defect management is provided by the line organization or project management, and used for each test project.",
+            "Defect management is the responsibility of the line or project organization, where the test process provides the necessary data.",
+            "Defects are analyzed for common properties and recommendations are made to avoid future defects."
+          ]
+        }
+      }
+    },
+    {
+      "Testware management": {
+        "area": "Test management",
+        "controlled": {
+          "description": "All used test and design documents in an approved state, are individually identified and registered.",
+          "items": [
+            "The test basis, the test object and all testware are identified by name and version.",
+            "Each test case is related to a test basis document in a transparent way.",
+            "The test team has access to all items under testware management.",
+            "The procedure by which testware, the test basis and the test object are managed is explicitly laid down and known to the test team."
+          ]
+        },
+        "efficient": {
+          "description": "The relations between all (test) artifacts are known and kept up to date.",
+          "items": [
+            "The test basis, the test object and all testware are referenced by name and version.",
+            "Traceability is provided between test cases and the requirements.",
+            "Testware management is supported by a logical storage structure, roles and an authorization structure."
+          ]
+        },
+        "optimized": {
+          "description": "Testware is made available for reuse in furture test projects and actually reused.",
+          "items": [
+            "It is agreed at test project start and rethought during the test project which testware will be conserved at the closure of the test project.",
+            "Guidelines for conserving testware for reuse are available and the reuse of testware is measured.",
+            "At the end of the project, the testware that will be handed over to maintenance is easily separable from the testware that is not going to be maintained."
+          ]
+        }
+      }
+    },
+    {
+      "Methodology practice": {
+        "area": "Test profession",
+        "controlled": {
+          "description": "A described test method enables predictable execution of test activities.",
+          "items": [
+            "The test process follows a documented test method: the test method describes a set of test activities, the test products delivered by the test project and additional requirements on the way of working.",
+            "The test method fits the development method applied by the project.",
+            "The test projects consider the implemented test method to be of practical use."
+          ]
+        },
+        "efficient": {
+          "description": "The described test method provides practical support for the test projects.",
+          "items": [
+            "The test method describes for all test activities the goal, the responsible role, any techniques to be used and preconditions.",
+            "A complete and comprehensive set of templates is provided as part of the test method.",
+            "Mandatory, conditional and optional elements of the test method are indicated.",
+            "The mandatory and conditional elements are put into practice."
+          ]
+        },
+        "optimized": {
+          "description": "Deviations from the test method are evaluated and lead to enhancing the method.",
+          "items": [
+            "Test teams structurally provide feedback regarding the test method.",
+            "The implemented test method is continuously enhanced and improved."
+          ]
+        }
+      }
+    },
+    {
+      "Tester professionalism": {
+        "area": "Test profession",
+        "controlled": {
+          "description": "With specific test method skills and competences the tester makes the test process more predictable and manageable.",
+          "items": [
+            "Testers have received specific test training and/or have sufficient experience in the field of structured testing.",
+            "Testers are familiar with the adopted test method and they apply it.",
+            "All required expertise - whether industry, business or technical - is available to the test team.",
+            "Testers are regularly evaluated on specific testing skills as well as general IT abilities in an employee performance appraisal."
+          ]
+        },
+        "efficient": {
+          "description": "Test personnel have a dedicated role or function for testing and they fulfill their task in line with expectations.",
+          "items": [
+            "Testers are certified in testing (such as TMap Next or ISTQB).",
+            "Testers can explain the rationale behind chosen techniques that have been applied.",
+            "Test personnel enjoy their job and have a good relationship with other skill groups in the project.",
+            "Test tasks are defined, allocated and executed in line with expectations."
+          ]
+        },
+        "optimized": {
+          "description": "Test personnel act from a Quality Assurance point of view thus constantly developing and improving their skills.",
+          "items": [
+            "Testers actively participate in Special Interest Groups, attend test seminars or read test literature to keep their skills up to date.",
+            "Test functions are part of the organization’s Human Resource Management and personal career development.",
+            "Testers strive towards accountability and responsibility for their own work and continuous improvement of their work process."
+          ]
+        }
+      }
+    },
+    {
+      "Test case design": {
+        "area": "Test profession",
+        "controlled": {
+          "description": "The test cases make the test execution repeatable and person independent.",
+          "items": [
+            "The test cases are recorded on a logical level.",
+            "The test cases consist of a description of: a) initial situation, b) change process = test actions to be performed, c) predicted result.",
+            "The test cases provide insight into which part of the test basis, describing a specific system behavior, is subject to the test."
+          ]
+        },
+        "efficient": {
+          "description": "Designing test cases that focus on achieving a specific coverage provides a justified elaboration of the test strategy.",
+          "items": [
+            "The test cases are understandable to and maintainable by peers within the test organization.",
+            "The coverage level of the test basis - as reached by the test cases - is known.",
+            "Formal test design techniques are used to design test cases.",
+            "Checklists are used for the testing of quality characteristics for which no test cases can be designed."
+          ]
+        },
+        "optimized": {
+          "description": "Evaluation of test cases, test design techniques and defects provides a way to increase test effectiveness.",
+          "items": [
+            "Defects that occur in the next phase (the next test level or production) are being analyzed, leading to improvements in the accuracy and effectiveness of test cases.",
+            "Test cases are checked and evaluated independently on validity and maintainability.",
+            "The test design techniques are evaluated and adjusted for further re-use."
+          ]
+        }
+      }
+    },
+    {
+      "Test tools": {
+        "area": "Test profession",
+        "controlled": {
+          "description": "Test tools needed to execute specific test activities are available and used.",
+          "items": [
+            "The test tools needed to execute specific test activities and to reach the test goals are available to and used by the test team.",
+            "Knowledge about the test tools in use is available.",
+            "Everyone involved, including the purchasing entity, considers the specific test tool used to be beneficial."
+          ]
+        },
+        "efficient": {
+          "description": "Test tools are used to accelerate specific test activities.",
+          "items": [
+            "Test tools currently used have been selected for testing faster, cheaper, better or making the test process better manageable.",
+            "The test tools are at the testers disposal at any required moment.",
+            "A business case has been created for each introduced test tool within the test process.",
+            "The use of these test tools is integrated in the test process."
+          ]
+        },
+        "optimized": {
+          "description": "Test tools, and their use, are continuously evaluated and improved.",
+          "items": [
+            "The tool policy is created and kept synchronized with the existing test policy.",
+            "The expertise, best practices and test tools products are collected and published for future projects.",
+            "Test tools are regularly evaluated on reaching the goals that have been set in the business case for implementing the test tool and the test tool policy."
+          ]
+        }
+      }
+    },
+    {
+      "Test environment": {
+        "area": "Test profession",
+        "controlled": {
+          "description": "Changes to the test environment do not happen unexpectedly.",
+          "items": [
+            "Test environment requirements are documented.",
+            "Working agreements are made with the parties supplying the test environment. These agreements contain tasks and responsibilities.",
+            "The test environment is available to the test team during the agreed time.",
+            "The test manager is timely informed whenever a change to the test environment is planned."
+          ]
+        },
+        "efficient": {
+          "description": "The test environment is directly related to the demands of the test level or test type at hand.",
+          "items": [
+            "Acceptance of the test environment takes place using a checklist created in advance.",
+            "A logical or functional design of the test environment is put together. It addresses applications, systems and their connections, and the use of stubs and drivers (mock-ups).",
+            "Supplying parties deliver a technical design of the test environment that is formally accepted by the test manager or the test environment specialist.",
+            "Agreements with supplying parties have a Service Level Agreement nature."
+          ]
+        },
+        "optimized": {
+          "description": "Test environments are offered as a service to testers.",
+          "items": [
+            "The ownership of test environments lies with a distinct department.",
+            "Usage of test environments is laid down in a standard contract.",
+            "Services in scope and out of scope with regard to test environments are laid down in a Service Catalogue."
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TPI NEXT Checklist</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<!-- Logo in top right corner -->
+<div class="logo-container">
+    <img src="../images/qamania_logo.svg" alt="QAMania Logo" class="logo">
+</div>
+
+<!-- Sticky horizontal Table of Contents -->
+<div class="toc">
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
+    <ul>
+        {% for category, levels in categories.items() %}
+        <li><a href="#cat-{{ category|replace(' ', '-')|lower }}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<h1>TPI NEXT Checklist</h1>
+
+<div class="disclaimer-card">
+    <button class="collapse-disclaimer" onclick="toggleDisclaimer()" title="Collapse disclaimer">
+        <span class="collapse-icon">×</span>
+    </button>
+
+    <div class="language-switcher">
+        <span>Language:</span>
+        <a href="../en/index.html" class="lang-link active">English</a>
+        <span>|</span>
+        <a href="../ua/index.html" class="lang-link">Українська</a>
+    </div>
+
+    <div class="disclaimer-content">
+        <div class="instructions">
+            <h3>How to use this checklist:</h3>
+            <ul>
+                <li>Be honest</li>
+                <li>Select <strong>Yes</strong>, <strong>No</strong>, or <strong>N/A</strong> for each item</li>
+                <li>Click <strong>Notes</strong> to add additional comments for any item. Try to make notes as often as possible</li>
+                <li>Your progress is automatically saved in your browser</li>
+                <li>Use the progress bar to track completion</li>
+                <li>Use <strong>Reset</strong> to clear all selections and start over</li>
+                <li>Check the matrix in the bottom to analyze result</li>
+                <li>Export results into csv or pdf</li>
+            </ul>
+        </div>
+
+        <div class="credits">
+            <p><strong>Credits:</strong> This checklist is developed by <a href="https://www.tmap.net/building-blocks/test-process-improvement-tpi" target="_blank">TPI NEXT</a> team. All Credits to them!</p>
+        </div>
+
+        <div class="privacy-notice">
+            <p><strong>Privacy Notice:</strong> All data is stored locally in your web browser only. No information is sent to or stored on our servers.</p>
+        </div>
+    </div>
+</div>
+
+<form id="checklistForm">
+    {% for category, levels in categories.items() %}
+    {% set cat_idx = '%02d' % loop.index %}
+    <h2 id="cat-{{ category|replace(' ', '-')|lower }}" class="catTl">{{ category }}</h2>
+    {% for level, content in levels.items() %}
+    <h3>{{ level.title() }}</h3>
+    {% if content.description %}
+    <p class="level-desc">{{ content.description }}</p>
+    {% endif %}
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Yes</th>
+            <th>No</th>
+            <th>N/A</th>
+            <th>Notes</th>
+        </tr>
+        {% for item in content['items'] %}
+        {% set quest_idx = cat_idx ~ '.' ~ level[:1]|lower ~ '.' ~ loop.index %}
+        <tr>
+            <td>{{ item }}</td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="yes"></td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="no"></td>
+            <td><input type="radio" name="{{ quest_idx }}" class="rIn" value="na"></td>
+            <td>
+                <button type="button" class="notesBtn" data-notes-for="{{ quest_idx }}">Notes
+                </button>
+            </td>
+        </tr>
+        <tr class="notesRow hiddenRow" id="notesRow-{{ quest_idx }}">
+            <td colspan="5">
+                <textarea class="notesArea" data-notes-for="{{ quest_idx }}" placeholder="Add notes..."></textarea>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+    {% endfor %}
+</form>
+
+<div class="sticky-buttons">
+    <button id="collapseNotesBtn" type="button" onclick="collapseAllNotes()">Collapse Notes</button>
+    <button id="resetBtn" type="button" onclick="resetChecklist()">Reset</button>
+    <button id="matrixBtn" type="button" onclick="scrollToMatrix()">Matrix</button>
+</div>
+
+<!-- Test Maturity Matrix Section -->
+<div class="maturity-matrix-section">
+    <h2>Test Maturity Matrix</h2>
+    <div class="maturity-matrix">
+        <table class="maturity-table">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="category-header">Key Areas</th>
+                    <th rowspan="2" class="slider-header">Importance</th>
+                    <th colspan="3" class="progress-header">Progress by Level</th>
+                </tr>
+                <tr>
+                    <th class="level-header controlled">Controlled</th>
+                    <th class="level-header efficient">Efficient</th>
+                    <th class="level-header optimized">Optimized</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for area_name, categories in matrix_data.items() %}
+                <!-- {{ area_name }} Section -->
+                <tr class="section-divider">
+                    <td colspan="5" class="section-title">{{ area_name.title() }}</td>
+                </tr>
+                {% for category in categories %}
+                <tr class="matrix-row" data-category="{{ category.key }}">
+                    <td class="category-name">{{ category.name }}</td>
+                    <td class="slider-cell">
+                        <div class="maturity-slider-container">
+                            <input type="range" class="maturity-slider" min="1" max="3" value="2" data-category="{{ category.key }}" title="L - Low importance, N - Normal importance, H - High importance">
+                            <div class="slider-labels">
+                                <span>L</span>
+                                <span>N</span>
+                                <span>H</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="controlled" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="efficient" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                    <td class="progress-cell">
+                        <div class="level-progress" data-level="optimized" data-category="{{ category.key }}">
+                            <div class="progress-bar-container">
+                                <div class="progress-segment yes-progress"></div>
+                                <div class="progress-segment no-progress"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Management View per Key Area Priority Section -->
+<div class="management-priority-section">
+    <h3>Management view per Key Area priority</h3>
+    <div class="priority-controls">
+        <div class="priority-checkboxes">
+            <label><input type="checkbox" checked> Controlled</label>
+            <label><input type="checkbox" checked> Efficient</label>
+            <label><input type="checkbox" checked> Optimizing</label>
+        </div>
+    </div>
+    <div class="priority-matrix">
+        <table class="priority-table">
+            <thead>
+                <tr>
+                    <th class="priority-level-header"></th>
+                    <th class="priority-progress-header controlled-column">Controlled</th>
+                    <th class="priority-progress-header efficient-column">Efficient</th>
+                    <th class="priority-progress-header optimizing-column">Optimizing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="priority-row" data-priority="high">
+                    <td class="priority-label">High</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="priority-row" data-priority="neutral">
+                    <td class="priority-label">Neutral</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="priority-row" data-priority="low">
+                    <td class="priority-label">Low</td>
+                    <td class="priority-progress-cell controlled-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell efficient-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                    <td class="priority-progress-cell optimizing-column">
+                        <div class="priority-progress-container">
+                            <div class="priority-progress-bar">
+                                <div class="priority-segment priority-yes"></div>
+                                <div class="priority-segment priority-no"></div>
+                            </div>
+                            <span class="priority-percentage">0%</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Project Information Card -->
+<div class="project-info-section">
+    <h3>Project Information & Summary</h3>
+    <form class="project-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" name="projectName" placeholder="Enter project name">
+            </div>
+            <div class="form-group">
+                <label for="auditDate">Audit Date:</label>
+                <input type="date" id="auditDate" name="auditDate">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="auditors">Auditors:</label>
+            <input type="text" id="auditors" name="auditors" placeholder="Enter auditor names (separated by commas)">
+        </div>
+
+        <div class="form-group">
+            <label for="overview">Overview:</label>
+            <textarea id="overview" name="overview" rows="6" placeholder="Put your notes, concerns, strong and weak points, impression about the testing process in the project. Include any observations, recommendations, or key findings from the audit."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="save-btn csv-btn" onclick="exportToCSV()">
+                <span class="btn-icon">📊</span>
+                Save as CSV
+            </button>
+            <button type="button" class="save-btn pdf-btn" onclick="exportToPDF()">
+                <span class="btn-icon">📄</span>
+                Save as PDF
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="../static/script.js"></script>
+</body>
+</html>
