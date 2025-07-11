@@ -650,11 +650,12 @@ function generatePDF() {
         const categoryName = row.querySelector('.category-name').textContent;
         const slider = row.querySelector('.maturity-slider');
         const importance = ['Low', 'Normal', 'High'][slider.value - 1];
+        const categoryKey = row.dataset.category;
 
-        // Get progress data for visual bars
-        const controlledProgress = parseInt(row.querySelector('[data-level="controlled"] .progress-text').textContent);
-        const efficientProgress = parseInt(row.querySelector('[data-level="efficient"] .progress-text').textContent);
-        const optimizedProgress = parseInt(row.querySelector('[data-level="optimized"] .progress-text').textContent);
+        // Get progress data for visual bars including totalRelevant info
+        const controlledProgress = calculateCategoryLevelProgress(categoryKey, 'controlled');
+        const efficientProgress = calculateCategoryLevelProgress(categoryKey, 'efficient');
+        const optimizedProgress = calculateCategoryLevelProgress(categoryKey, 'optimized');
 
         matrixData.push([
             categoryName,
@@ -683,34 +684,43 @@ function generatePDF() {
         didDrawCell: function (data) {
             // Draw progress bars for columns 2, 3, 4 (Controlled, Efficient, Optimized)
             if (data.section === 'body' && data.column.index >= 2) {
-                const progress = data.cell.raw; // Get the percentage value
+                const progressData = data.cell.raw; // Get the progress object
                 const cellX = data.cell.x;
                 const cellY = data.cell.y;
                 const cellWidth = data.cell.width;
                 const cellHeight = data.cell.height;
 
-                // Clear the cell content (remove percentage text)
+                // Clear the cell content
                 doc.setFillColor(255, 255, 255); // White
                 doc.rect(cellX, cellY, cellWidth, cellHeight, 'F');
 
-                // Draw progress bar background
-                doc.setFillColor(236, 240, 241); // Light gray
-                doc.rect(cellX + 2, cellY + 2, cellWidth - 4, cellHeight - 4, 'F');
+                // Check if there are any relevant answers (not just NA)
+                if (progressData.totalRelevant === 0) {
+                    // Draw gray background for categories with no relevant answers (only NA or no answers)
+                    doc.setFillColor(200, 200, 200); // Gray
+                    doc.rect(cellX + 2, cellY + 2, cellWidth - 4, cellHeight - 4, 'F');
+                } else {
+                    // Draw progress bar background
+                    doc.setFillColor(236, 240, 241); // Light gray
+                    doc.rect(cellX + 2, cellY + 2, cellWidth - 4, cellHeight - 4, 'F');
 
-                // Draw green progress bar fill based on percentage
-                if (progress > 0) {
-                    const fillWidth = ((cellWidth - 4) * progress) / 100;
-                    doc.setFillColor(39, 174, 96); // Green for progress
-                    doc.rect(cellX + 2, cellY + 2, fillWidth, cellHeight - 4, 'F');
-                }
+                    const yesPercentage = (progressData.yesCount / progressData.totalRelevant) * 100;
+                    const noPercentage = (progressData.noCount / progressData.totalRelevant) * 100;
 
-                // Draw red progress bar for remaining percentage (no answers)
-                const remainingPercent = 100 - progress;
-                if (remainingPercent > 0) {
-                    const greenWidth = ((cellWidth - 4) * progress) / 100;
-                    const redWidth = ((cellWidth - 4) * remainingPercent) / 100;
-                    doc.setFillColor(231, 76, 60); // Red for no answers
-                    doc.rect(cellX + 2 + greenWidth, cellY + 2, redWidth, cellHeight - 4, 'F');
+                    // Draw green progress bar fill for yes answers
+                    if (progressData.yesCount > 0) {
+                        const greenWidth = ((cellWidth - 4) * yesPercentage) / 100;
+                        doc.setFillColor(39, 174, 96); // Green for yes
+                        doc.rect(cellX + 2, cellY + 2, greenWidth, cellHeight - 4, 'F');
+                    }
+
+                    // Draw red progress bar for no answers
+                    if (progressData.noCount > 0) {
+                        const greenWidth = ((cellWidth - 4) * yesPercentage) / 100;
+                        const redWidth = ((cellWidth - 4) * noPercentage) / 100;
+                        doc.setFillColor(231, 76, 60); // Red for no
+                        doc.rect(cellX + 2 + greenWidth, cellY + 2, redWidth, cellHeight - 4, 'F');
+                    }
                 }
 
                 // Redraw cell border
