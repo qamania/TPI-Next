@@ -479,7 +479,7 @@
       }
     },
     {
-      "AI": {
+      "AI in testing": {
         "area": "Test profession",
         "controlled": {
           "description": "AI is a game changer in the test process, should be considered and used where applicable",
@@ -495,8 +495,8 @@
             "AI tools are used to analyze test basis to identify potential risks and areas for improvement",
             "AI tools are used to generate test cases based on requirements and design documents",
             "AI tools are used to automate repetitive test tasks, such as test execution and result analysis. It can be AI agent to help AQA",
-            "results from AI tools are validated by human testers to ensure accuracy and relevance",
-            "results from AI tools are preserved as testware after validation for future reference"
+            "Results from AI tools are validated by human testers to ensure accuracy and relevance",
+            "Results from AI tools are preserved as testware after validation for future reference"
           ]
         },
         "optimized": {
