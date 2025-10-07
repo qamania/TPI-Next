@@ -25,11 +25,229 @@ document.addEventListener('DOMContentLoaded', function() {
         saveToIndexedDB();
     });
 
+    // Setup CSV file input handler
+    document.getElementById('csvFileInput').addEventListener('change', handleCSVImport);
+
     // Initial restore on load
     restoreFromIndexedDB();
     highlightRows();
     updateProgressBar();
 });
+
+// Function to trigger CSV file input
+function triggerImportCSV() {
+    document.getElementById('csvFileInput').click();
+}
+
+// Function to handle CSV import
+function handleCSVImport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Show loading indicator or notification
+    const notification = showNotification('Importing data from CSV...', 'info');
+
+    // Use FileReader to read the CSV file
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const csvData = e.target.result;
+            // Parse the CSV data
+            const parsedData = parseCSV(csvData);
+
+            // Import the data
+            importDataFromCSV(parsedData);
+
+            // Update the UI
+            highlightRows();
+            updateProgressBar();
+
+            // Show success notification
+            updateNotification(notification, 'CSV data imported successfully!', 'success');
+            setTimeout(() => {
+                removeNotification(notification);
+            }, 3000);
+
+        } catch (error) {
+            console.error('Error parsing CSV:', error);
+            updateNotification(notification, 'Error importing CSV: ' + error.message, 'error');
+            setTimeout(() => {
+                removeNotification(notification);
+            }, 5000);
+        }
+    };
+
+    reader.onerror = function() {
+        console.error('Error reading file');
+        updateNotification(notification, 'Error reading file', 'error');
+        setTimeout(() => {
+            removeNotification(notification);
+        }, 5000);
+    };
+
+    reader.readAsText(file);
+
+    // Reset the file input so the same file can be imported again if needed
+    event.target.value = '';
+}
+
+// CSV parsing function
+function parseCSV(csvString) {
+    // Split by newlines
+    const rows = csvString.split(/\r?\n/);
+    const result = [];
+
+    // Find the header row
+    const headerRow = rows[0];
+    const headers = parseCSVRow(headerRow);
+
+    // Check required columns
+    const idIndex = headers.indexOf('ID');
+    const answerIndex = headers.indexOf('Answer');
+    const noteIndex = headers.indexOf('Note');
+
+    if (idIndex === -1 || answerIndex === -1) {
+        throw new Error('CSV must contain ID and Answer columns');
+    }
+
+    // Process data rows
+    for (let i = 1; i < rows.length; i++) {
+        const row = rows[i].trim();
+        if (!row) continue;
+
+        const values = parseCSVRow(row);
+
+        // Skip rows with insufficient data
+        if (values.length <= Math.max(idIndex, answerIndex)) continue;
+
+        const item = {
+            id: values[idIndex],
+            answer: values[answerIndex].toLowerCase(),
+            note: noteIndex !== -1 && noteIndex < values.length ? values[noteIndex] : ''
+        };
+
+        result.push(item);
+    }
+
+    return result;
+}
+
+// Parse a single CSV row, handling quoted fields correctly
+function parseCSVRow(rowString) {
+    const result = [];
+    let inQuotes = false;
+    let currentField = '';
+
+    for (let i = 0; i < rowString.length; i++) {
+        const char = rowString[i];
+
+        if (char === '"') {
+            // If this is an opening quote (not in quotes yet)
+            if (!inQuotes) {
+                inQuotes = true;
+            }
+            // If this is a closing quote (already in quotes)
+            else {
+                // Check if it's an escaped quote (two double quotes in a row)
+                if (i < rowString.length - 1 && rowString[i + 1] === '"') {
+                    currentField += '"';
+                    i++; // Skip the next quote
+                } else {
+                    // It's a closing quote
+                    inQuotes = false;
+                }
+            }
+        } else if (char === ',' && !inQuotes) {
+            // End of field
+            result.push(currentField);
+            currentField = '';
+        } else {
+            // Regular character
+            currentField += char;
+        }
+    }
+
+    // Add the last field
+    result.push(currentField);
+
+    return result;
+}
+
+// Import parsed CSV data into the form
+function importDataFromCSV(parsedData) {
+    // Clear existing data first
+    resetChecklist();
+
+    // Store the data we're going to save to IndexedDB
+    const checklistData = { id: 'current', data: {} };
+    const notesData = { id: 'current', data: {} };
+
+    // Process each item in the parsed data
+    parsedData.forEach(item => {
+        // Get the radio with the matching ID and answer value
+        const radios = document.getElementsByName(item.id);
+
+        if (radios.length > 0) {
+            // Set the corresponding radio button
+            for (let radio of radios) {
+                if (radio.value === item.answer) {
+                    radio.checked = true;
+                    checklistData.data[item.id] = item.answer;
+                    break;
+                }
+            }
+
+            // Handle notes if present
+            if (item.note) {
+                const noteArea = document.querySelector(`.notesArea[data-notes-for="${item.id}"]`);
+                if (noteArea) {
+                    noteArea.value = item.note;
+                    notesData.data[item.id] = item.note;
+
+                    // Show the notes row
+                    const notesRow = document.getElementById(`notesRow-${item.id}`);
+                    if (notesRow) {
+                        notesRow.classList.remove('hiddenRow');
+                    }
+                }
+            }
+        }
+    });
+
+    // Save the imported data to IndexedDB
+    if (db) {
+        const transaction = db.transaction(['checklist', 'notes'], 'readwrite');
+        transaction.objectStore('checklist').put(checklistData);
+        transaction.objectStore('notes').put(notesData);
+    }
+}
+
+// Notification functions for better UX during import
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = message;
+    document.body.appendChild(notification);
+
+    // Add to DOM and trigger animation
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+
+    return notification;
+}
+
+function updateNotification(notification, message, type) {
+    notification.className = `notification ${type} show`;
+    notification.innerHTML = message;
+}
+
+function removeNotification(notification) {
+    notification.classList.remove('show');
+    setTimeout(() => {
+        notification.remove();
+    }, 300); // Match the CSS transition time
+}
 
 // IndexedDB setup
 let db;

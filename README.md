@@ -25,6 +25,7 @@ If you want to contribute to the project, create a pull request or open an issue
 
 ## Roadmap
 - [x] add AI as a category in the questionnaire
+- [x] implement import of audit results from csv file
 - [ ] implement audit results comparison by uploading csv files
 - [ ] add scenario with questions for the typical audit
 - [ ] add template of the audit report
